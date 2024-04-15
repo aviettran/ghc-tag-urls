@@ -12,10 +12,11 @@ jobs:
     # Build config from csv
     - name: Build
       run: |
-        sudo apt-get install -y jq csvkit
-        sudo snap install yq --channel=v3/stable
+        sudo add-apt-repository ppa:rmescandon/yq
+        sudo apt-update
+        sudo apt-get install -y jq csvkit yq
         csvjson links.csv --no-header-row | jq '{ path: "out", urls: map({(.a | tostring): .b}) | add }' | yq -P > config.yml
-
+        
     # Generate files using this action
     - name: Generate
       uses: brunoluiz/urlzap-github-action@v1
