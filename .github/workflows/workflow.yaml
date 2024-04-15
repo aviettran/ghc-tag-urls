@@ -17,7 +17,7 @@ jobs:
       run: |
         sudo snap install yq
         sudo apt-get install -y csvkit
-        csvjson links.csv --no-header-row | jq '{ path: "out", urls: map({(.a | tostring): .b}) | add }' | yq -P > config.yml
+        csvjson links.csv --no-header-row | jq '{ path: "out", urls: group_by(.a) | map(map({(.a | tostring): {(.b | tostring): .c}}) | add) | add }' | yq -P > config.yml
         
     # Generate files using this action
     - name: Generate
