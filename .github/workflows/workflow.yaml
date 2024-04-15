@@ -11,6 +11,7 @@ jobs:
 
     # Build config from csv
     - name: Build
+      shell: bash
       run: |
         sudo snap install yq
         sudo apt-get install -y jq csvkit
