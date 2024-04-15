@@ -9,15 +9,12 @@ jobs:
     # Checkout your repo locally
     - uses: actions/checkout@v2
 
-    - name: Install packages
-      run: sudo apt-get install -y jq csvkit
-    
     # Build config from csv
     - name: Build
-      uses: mikefarah/yq@v4.43.1
-      with:
-        cmd: |
-          csvjson links.csv --no-header-row | jq '{ path: "out", urls: map({(.a | tostring): .b}) | add }' | yq -P > config.yml
+      run: |
+        sudo apt-get install -y jq csvkit
+        snap install yq --channel=v3/stable
+        csvjson links.csv --no-header-row | jq '{ path: "out", urls: map({(.a | tostring): .b}) | add }' | yq -P > config.yml
 
     # Generate files using this action
     - name: Generate
